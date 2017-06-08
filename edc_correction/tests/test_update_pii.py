@@ -1,6 +1,6 @@
 from django.test.testcases import TestCase
 from ..python_scripts import UpdatePii
-from bcpp_random.models import HouseholdMember, EnrollmentChecklist, SubjectConsent
+from ..models import HouseholdMember, EnrollmentChecklist, SubjectConsent
 from django.db.utils import IntegrityError
 
 
