@@ -1,33 +1,39 @@
-from django.core.exceptions import ObjectDoesNotExist
-
-from edc_base.utils import get_utcnow
-# from edc_registration.models import RegisteredSubject
-
-from .models import HouseholdMember, EnrollmentChecklist, SubjectConsent
+from .models import HouseholdMember
 
 
-class UpdatePii:
+class UpdatePII:
 
-    def __init__(self, user_modified=None, initials=None, last_name=None, subject_identifier=None):
+    def update_first_name(self, subject_identifier=None, new_first_name=None):
+        self.subject_identifier = subject_identifier
+        self.new_first_name = new_first_name
+        for member in HouseholdMember.objects.filter(subject_identifier=self.subject_identifier):
+            member.first_name = self.new_first_name
+            member.save()
+        return member.first_name
 
-        for hm in HouseholdMember.objects.filter(subject_identifier=subject_identifier):
-            hm.initials = initials
-            hm.user_modified = user_modified
-            hm.modified = get_utcnow()
-            hm.save()
+    def update_last_name(self):
+        pass
 
-            for obj in hm.enrollmentchecklist_set.all():
-                obj.initials = initials
-                obj.user_modified = user_modified
-                obj.modified = get_utcnow()
-                obj.save()
+    def update_age_in_years(self):
+        pass
 
-            for obj in hm.subjectconsent_set.all():
-                obj.last_name = last_name
-                obj.initials = initials
-                obj.user_modified = user_modified
-                obj.modified = get_utcnow()
-                obj.save()
+    def update_initials(self):
+        pass
 
+    def update_gender(self):
+        pass
 
+    def update_is_literate(self):
+        pass
 
+    def update_date_of_brith(self):
+        pass
+
+    def update_literacy_witness(self):
+        pass
+
+    def update_guardian_name(self):
+        pass
+
+    def update_user_modified(self):
+        pass

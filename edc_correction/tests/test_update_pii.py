@@ -1,35 +1,14 @@
-from django.test.testcases import TestCase
-from ..python_scripts import UpdatePii
-from ..models import HouseholdMember, EnrollmentChecklist, SubjectConsent
-from django.db.utils import IntegrityError
+from django.test import TestCase
+from ..python_scripts import UpdatePII
+from ..models import HouseholdMember
 
 
 class TestUpdatePii(TestCase):
 
-    def test_update_hh(self):
-        UpdatePii(subject_identifier='765478362486-2')
-
-    def test_with_household_member(self):
-        household_member = HouseholdMember.objects.create(subject_identifier='765478362486-2')
-        EnrollmentChecklist.objects.create(household_member=household_member)
-        UpdatePii(subject_identifier='765478362486-2')
-
-    def test_with_household_member_with_consent(self):
-        household_member = HouseholdMember.objects.create(subject_identifier='765478362486-2')
-        EnrollmentChecklist.objects.create(household_member=household_member)
-        SubjectConsent.objects.create(household_member=household_member, last_name='GABORONE')
-        self.assertRaises(
-            IntegrityError,
-            UpdatePii, subject_identifier='765478362486-2')
-
-    def test_change_lastname(self):
-        household_member = HouseholdMember.objects.create(subject_identifier='765478362486-2')
-        EnrollmentChecklist.objects.create(household_member=household_member)
-        SubjectConsent.objects.create(household_member=household_member, last_name='GABORONE')
-        UpdatePii(subject_identifier='765478362486-2', last_name='MOCHUDI')
-        obj = SubjectConsent.objects.get(household_member=household_member)
-        self.assertEqual(obj.last_name, 'MOCHUDI')
-
-
-
-
+    def test_change_firstname(self):
+        household_member = HouseholdMember.objects.create(
+            subject_identifier='65765867535', first_name='Tumie')
+        updated_name = UpdatePII.update_first_name(
+            self, subject_identifier=household_member.subject_identifier,
+            new_first_name='Magodi')
+        self.assertEqual(updated_name, self.new_first_name)

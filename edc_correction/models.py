@@ -6,6 +6,16 @@ class HouseholdMember(BaseUuidModel):
     subject_identifier = models.CharField(
         max_length=25)
 
+    first_name = models.CharField(
+        max_length=25,
+        null=True,
+        blank=True)
+
+    new_first_name = models.CharField(
+        max_length=25,
+        null=True,
+        blank=True)
+
 
 class EnrollmentChecklist(BaseUuidModel):
 
