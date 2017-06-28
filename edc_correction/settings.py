@@ -25,7 +25,7 @@ SECRET_KEY = 'y$2!1r6rtk88nfmi5nt^pfbh4)b0-jur%ueo$3q+*$8fzf)1r&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'edc_correction',
+    'edc_base.apps.AppConfig',
+    'django_revision.apps.AppConfig',
+    #     'edc_identifier',
+    'edc_device.apps.AppConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -73,12 +78,13 @@ WSGI_APPLICATION = 'edc_correction.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'mysql.conf'),
+        },
+    },
 }
 
 
@@ -113,6 +119,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DEVICE_ID = 10
 
 
 # Static files (CSS, JavaScript, Images)
