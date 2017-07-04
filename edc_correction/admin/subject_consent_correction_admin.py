@@ -1,6 +1,6 @@
-from django.contrib import admin
-
 from edc_base.modeladmin_mixins import audit_fieldset_tuple, audit_fields
+
+from django.contrib import admin
 
 from ..forms import SubjectConsentCorrectionForm
 from ..models import SubjectConsentCorrection
@@ -12,26 +12,27 @@ class SubjectConsentCorrectionAdmin(admin.ModelAdmin):
     form = SubjectConsentCorrectionForm
 
     fieldsets = (
-        ('For completion by TMG Investigator Only', {
+        ('For completion by Authorized Persons Only', {
             'fields': (
                 'subject_identifier',
                 'report_datetime',
-                'first_name',
+                'old_first_name',
                 'new_first_name',
-                'last_name',
+                'old_last_name',
                 'new_last_name',
-                'initials',
+                'old_initials',
                 'new_initials',
-                'dob',
+                'old_dob',
                 'new_dob',
-                'gender',
+                'old_gender',
                 'new_gender',
-                'guardian_name',
+                'old_guardian_name',
                 'new_guardian_name',
-                'may_store_samples',
+                'old_may_store_samples',
                 'new_may_store_samples',
-                'is_literate',
-                'witness_name',
+                'old_is_literate',
+                'new_is_literate',
+                'old_witness_name',
                 'new_witness_name'
             )}),
         audit_fieldset_tuple

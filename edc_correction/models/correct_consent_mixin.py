@@ -1,3 +1,6 @@
+from nntplib import subject
+
+from bcpp_subject.models import SubjectConsent
 from django.core.exceptions import ValidationError
 
 from member.models import HouseholdMember
@@ -45,30 +48,56 @@ class CorrectConsentMixin:
     def update_household_member_and_enrollment_checklist(self):
         household_member_qs = HouseholdMember.objects.filter(
             subject_identifier=self.subject_identifier)
+        sub_consent_qs = SubjectConsent.objects.filter(
+            subject_identifier=self.subject_identifier)
         for hm in household_member_qs:
             self.update_first_name(hm)
+            self.update_gender(hm)
+        for sc in sub_consent_qs:
+            self.update_last_name(sc)
+            self.update_witness(sc)
 
-    def update_first_name(self, household_member):
+    def update_first_name(self, subject_consent):
+        household_member = subject_consent.household_member
+        enrollment_checklist = household_member.enrollmentchecklist
         if self.new_first_name:
             household_member.first_name = self.new_first_name
             if not household_member.initials.startswith(self.new_first_name[0]):
                 household_member.initials = (
                     self.new_first_name[0] + household_member.initials[1:])
-            if household_member.enrollment_checklist.subject_consent:
-                household_member.enrollment_checklist.subject_consent.first_name = (
+                subject_consent.initials = (
+                    self.new_first_name[0] + household_member.initials[1:])
+                subject_consent.first_name = (
                     self.new_first_name)
+                enrollment_checklist.initials = (
+                    self.new_first_name[0] + household_member.initials[1:])
 
-    def update_witness(self, household_member):
-        if self.new_witness_name and household_member.enrollment_checklist.subject_consent:
-            household_member.enrollment_checklist.subject_consent.witness_name = self.new_witness_name
+    def update_last_name(self, subject_consent):
+        household_member = subject_consent.household_member
+        enrollment_checklist = household_member.enrollmentchecklist
+        if self.new_last_name:
+            subject_consent.last_name = self.new_last_name
+            if not subject_consent.initials.startswith(self.new_last_name[0]):
+                household_member.initials = (
+                    household_member.initials[:-1] + self.new_last_name[0])
+                subject_consent.initials = (
+                    household_member.initials[:-1] + self.new_last_name[0])
+                enrollment_checklist.initials = (
+                    household_member.initials[:-1] + self.new_last_name[0])
 
-    def update_gender(self, household_member):
+    def update_witness(self, subject_consent):
+        if self.new_witness_name and subject_consent:
+            subject_consent.witness_name = self.new_witness_name
+
+    def update_gender(self, subject_consent):
+        household_member = subject_consent.household_member
+        enrollment_checklist = household_member.enrollmentchecklist
         if self.new_gender:
-            household_member.gender = self.new_gender
-            if household_member.enrollment_checklist:
-                household_member.enrollment_checklist.gender = self.new_gender
-                household_member.enrollment_checklist.user_modified = self.update_user_modified()
-            household_member.enrollment_checklist.subject_consent.gender = self.new_gender
+            subject_consent.gender = self.new_gender
+            if household_member:
+                household_member.gender = self.new_gender
+                enrollment_checklist.gender = self.new_gender
+                enrollment_checklist.user_modified = self.update_user_modified()
 
     def update_initials(self, first_name, last_name):
         initials = '{}{}'.format(first_name[0], last_name[0])
