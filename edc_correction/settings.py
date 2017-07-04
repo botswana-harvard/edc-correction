@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from pathlib import PurePath
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ETC_DIR = os.path.join(str(PurePath(BASE_DIR).parent), 'etc')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -23,6 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y$2!1r6rtk88nfmi5nt^pfbh4)b0-jur%ueo$3q+*$8fzf)1r&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+APP_NAME = 'edc_correction'
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -37,12 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'edc_correction',
-    'edc_base.apps.AppConfig',
+    'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
-    #     'edc_identifier',
+    'edc_base.apps.AppConfig',
+    'edc_correction',
     'edc_device.apps.AppConfig',
-
+    'edc_identifier.apps.AppConfig',
+    'edc_protocol.apps.AppConfig',
+    'plot.apps.AppConfig',
+    'household.apps.AppConfig',
+    'member.apps.AppConfig',
+    'plot_form_validators.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +138,6 @@ DEVICE_ID = 10
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+KEY_PATH = os.path.join('/Volumes', 'crypto_keys')

@@ -1,74 +1,16 @@
 from datetime import timezone
 from edc_base.model_validators.date import datetime_not_future
-from edc_base.utils import get_utcnow
 
 from dateutil.relativedelta import relativedelta
 from django import forms
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.test import TestCase
 
-from .forms import SubjectConsentCorrectionForm
+from .models import SubjectConsentCorrection, CorrectConsentMixin
 
 
-class TestModelsMixin:
-
-    subject_identifier = models.CharField(
-        max_length=25)
-
-    report_datetime = models.DateTimeField(
-        verbose_name="Correction report date ad time",
-        null=True,
-        validators=[
-            datetime_not_future],
-    )
-
-    first_name = models.CharField(
-        max_length=25,
-        null=True,
-        blank=True,
-    )
-
-    initials = models.CharField(
-        max_length=4,
-        validators=[RegexValidator(
-            regex=r'^[A-Z]{2,3}$',
-            message='Ensure initials consist of letters only in upper case, no spaces.'), ],
-        null=True,
-        blank=True,
-    )
-
-    dob = models.DateField(
-        verbose_name="Date of birth",
-        null=True,
-        blank=True,
-        help_text="Format is YYYY-MM-DD",
-    )
-
-    gender = models.CharField(
-        max_length=1,
-        null=True,
-        blank=True,
-    )
-
-
-class HouseholdMember(TestModelsMixin, models.Model):
-
-    pass
-
-
-class EnrollmentChecklist(TestModelsMixin, models.Model):
-
-    household_member = models.ForeignKey(
-        HouseholdMember, on_delete=models.PROTECT)
-
-
-class SubjectConsent(models.Model):
-
-    enrollment_checklist = models.ForeignKey(
-        EnrollmentChecklist, on_delete=models.PROTECT)
-
+class SubjectConsent:
     subject_identifier = models.CharField(
         max_length=25)
 
@@ -156,30 +98,40 @@ class SubjectConsent(models.Model):
 class TestCorrectConsent(TestCase):
 
     def setUp(self):
-        self.hhm = HouseholdMember()
-        self.hhm.first_name = 'Magodi'
-        self.hhm.initials = 'MGD'
-        self.hhm.subject_identifier = '1234'
-
-        self.ec = EnrollmentChecklist()
-        self.ec.subject_identifier = '1234'
-        self.ec.first_name = 'Magodi'
-        self.ec.initials = 'MGD'
-        self.ec.household_member = self.hhm
-
         self.subject_consent = SubjectConsent()
-        self.subject_consent.subject_identifier = '1234'
-        self.subject_consent.enrollment_checklist = self.ec
         self.subject_consent.first_name = 'Magodi'
-        self.subject_consent.initials = 'MGD'
 
-    def test_change_firstname(self):
-        cleaned_data = {'report_datetime': get_utcnow(),
-                        'old_first_name': 'Magodi',
-                        'new_first_name': 'Tumie'}
-        form = SubjectConsentCorrectionForm(cleaned_data=cleaned_data)
-        self.assertRaises(ValidationError, form.save)
 
+#     def mommy(self):
+#
+#         subject_consent = SubjectConsent.objects.create(
+#             subject_identifier='subject_identifier',
+#             first_name='Amanda',
+#             last_name='India',
+#             initials='AI',
+#             dob='new_dob',
+#             is_literate='new_is_literate',
+#             gurdian_name='new_guardian_name',
+#             gender='new_gender',
+#             may_store_samples='new_may_store_samples'
+#         )
+#
+#         household_member = HouseholdMember.objects.create(
+#             subject_identifier='subject_identifier',
+#             first_name='Amanda',
+#             initials='AI',
+#             age_in_years=timezone.now() - relativedelta(years=subject_consent.dob)
+#         )
+#
+#         enrollment_checklist = EnrollmentChecklist.objects.create(
+#             household_member=household_member,
+#             first_name=household_member.first_name,
+#             initials=household_member.initials,
+#             dob=subject_consent.dob,
+#             gender=subject_consent.gender,
+#             is_literate=subject_consent.is_literate,
+#         )
+#
 # #     def test_initial(self):
 # #         CorrectConsent(subject_identifier=None)
 #
