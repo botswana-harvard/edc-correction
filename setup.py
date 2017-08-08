@@ -12,8 +12,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='edc-correction',
     version='0.1.0',
-    author=u'Erik van Widenfelt',
-    author_email='ew2789@gmail.com',
+    author=u'Erik van Widenfelt, Coulson Thabo Kgathi',
+    author_email='ew2789@gmail.com, ckgathi@gmail.com',
     packages=find_packages(),
     include_package_data=True,
     url='http://github/erikvw/edc-correction',

@@ -1,9 +1,5 @@
-from django.apps import AppConfig
+from django.apps import AppConfig as DjangoAppConfig
 
 
-class EdcCorrectionAppConfig(AppConfig):
+class AppConfig(DjangoAppConfig):
     name = 'edc_correction'
-    url_namespace = 'edc_correction'
-
-    def ready(self):
-        pass

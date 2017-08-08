@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
 
 from pathlib import PurePath
 
@@ -43,17 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
     'edc_base.apps.AppConfig',
-    'edc_correction',
+    'edc_correction.apps.AppConfig',
     'edc_device.apps.AppConfig',
-    'edc_identifier.apps.AppConfig',
     'edc_protocol.apps.AppConfig',
-    'plot.apps.AppConfig',
-    'household.apps.AppConfig',
-    'member.apps.AppConfig',
-    'plot_form_validators.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +136,18 @@ STATIC_URL = '/static/'
 
 
 KEY_PATH = os.path.join('/Volumes', 'crypto_keys')
+
+
+if 'test' in sys.argv:
+
+    class DisableMigrations:
+
+        def __contains__(self, item):
+            return True
+
+        def __getitem__(self, item):
+            return None
+
+    MIGRATION_MODULES = DisableMigrations()
+    PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher', )
+    DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
