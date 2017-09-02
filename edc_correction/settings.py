@@ -134,7 +134,7 @@ DEVICE_ID = 10
 
 STATIC_URL = '/static/'
 
-
+GIT_DIR = BASE_DIR
 KEY_PATH = os.path.join('/Volumes', 'crypto_keys')
 
 

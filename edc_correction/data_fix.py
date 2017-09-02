@@ -30,11 +30,7 @@ class DataFix:
                 f'The object of pk {self.pk} does not exist.')
         else:
             self.model_cls.objects.filter(
-                pk=self.pk).update(**self.update_options)
-
-    @property
-    def update_options(self):
-        return {self.attr_name: self.new_value}
+                pk=self.pk).update(**{self.attr_name: self.new_value})
 
     def valid_old_value(self):
         """Validate if the old value is correct."""
@@ -49,11 +45,17 @@ class DataFix:
             else:
                 return False
 
+    def create_update_history(self):
+        """Create a history instance of the data being updated.
+        """
+        DataUpdateHistory.objects.create(
+            instance_pk=self.pk, new_value=self.new_value,
+            old_value=self.old_value, model_name=self.model,
+            attribute_name=self.attr_name)
+
     def data_update(self):
         """Update instance value and creates a history.
         """
         if self.valid_old_value():
             self.update_value()
-            DataUpdateHistory.objects.create(
-                instance_pk=self.pk, new_value=self.new_value,
-                old_value=self.old_value, model=self.model)
+            self.create_update_history()

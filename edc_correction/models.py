@@ -27,7 +27,13 @@ class DataUpdateHistory(BaseUuidModel):
         blank=True,
     )
 
-    model = models.CharField(
+    model_name = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+
+    attribute_name = models.CharField(
         max_length=100,
         null=True,
         blank=True,

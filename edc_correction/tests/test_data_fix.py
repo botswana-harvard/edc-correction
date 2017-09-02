@@ -1,4 +1,3 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 
 from ..data_fix import DataFix, DataFixError
@@ -20,10 +19,7 @@ class TestDataFix(TestCase):
             pk=obj.pk, attr_name=attr_name, new_value=new_value,
             old_value=old_value, model='edc_correction.datafixtestmodel')
         data_fix.update_value()
-        try:
-            obj = DataFixTestModel.objects.get(pk=obj.pk)
-        except ObjectDoesNotExist:
-            raise DataFixError(f'obj with pk: {obj.pk} does not exist.')
+        obj = DataFixTestModel.objects.get(pk=obj.pk)
         self.assertEqual(getattr(obj, attr_name), new_value)
 
     def test_update_value1(self):
@@ -51,27 +47,28 @@ class TestDataFix(TestCase):
             old_value=old_value, model='edc_correction.datafixtestmodel')
         self.assertTrue(data_fix.valid_old_value())
 
-    def test_valid_old_value1(self):
-        """Assert if valid_old_value returns False if old value is not the same
+    def test_wrong_valid_old_value(self):
+        """Assert if valid_old_value returns True if old value is not the same
         as the old value in the db.
         """
         obj = DataFixTestModel.objects.create(
             field1='test value')
-        old_value = 'test value 2'
+        old_value = 'test value 1'
         data_fix = DataFix(
             pk=obj.pk, attr_name='field1',
             old_value=old_value, model='edc_correction.datafixtestmodel')
         self.assertFalse(data_fix.valid_old_value())
 
-    def test_valid_old_value2(self):
-        """Assert if an error is raised if an object with a given pk
-        does not exist.
+    def test_valid_old_value_no_obj(self):
+        """Assert if valid_old_value returns True if old value is not the same
+        as the old value in the db.
         """
         pk = '1'
-        old_value = 'test value 2'
+        old_value = 'test value 1'
         data_fix = DataFix(
             pk=pk, attr_name='field1',
-            old_value=old_value, model='edc_correction.datafixtestmodel')
+            old_value=old_value,
+            model='edc_correction.datafixtestmodel')
         self.assertRaises(DataFixError, data_fix.valid_old_value)
 
     def test_data_update(self):
