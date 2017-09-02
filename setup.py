@@ -16,7 +16,7 @@ setup(
     author_email='ew2789@gmail.com, ckgathi@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/botswana-harvard/edc-correction.git',
+    url='https://github.com/botswana-harvard/edc-correction',
     license='GPL licence, see LICENCE',
     description='Edc edc_appointment module.',
     long_description=README,
