@@ -15,6 +15,8 @@ import sys
 
 from pathlib import PurePath
 
+app_name = 'edc_correction'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,11 +46,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crypto_fields.apps.AppConfig',
+    'crispy_forms',
+    'tz_detect',
+    'corsheaders',
+    'django_js_reverse',
     'django_revision.apps.AppConfig',
     'edc_base.apps.AppConfig',
     'edc_correction.apps.AppConfig',
+    'edc_correction.apps.EdcProtocolAppConfig',
     'edc_device.apps.AppConfig',
-    'edc_protocol.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Gaborone'
 
 USE_I18N = True
 
@@ -125,6 +132,9 @@ USE_L10N = True
 USE_TZ = True
 
 DEVICE_ID = 10
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Static files (CSS, JavaScript, Images)

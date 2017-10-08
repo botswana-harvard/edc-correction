@@ -1,0 +1,2 @@
+class DataFixError(Exception):
+    pass

@@ -1,0 +1,46 @@
+{% extends 'edc_base/base.html' %}
+{% load staticfiles %}
+
+
+{% block main %}
+
+<style>
+
+.bg-1 {
+    background-color: #428bca; /* dark blue */
+    color: #ffffff;
+}
+.bg-2 {
+    background-color: #5bc0de; /* light Blue */
+    color: #ffffff;
+}
+.bg-3 {
+    background-color: #f9f9f9; /* White */
+    color: #555555;
+}
+
+</style>
+
+    {{ block.super }}
+
+<div class="container bg-3 text-center">
+	<h3 class="text text-muted">Data Fix</h3>
+		<h3>
+			<a href="#" class="btn btn-default btn-lg"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i>Data Fix</a>
+		</h3>	
+		
+	<h1>
+	<hr>
+		KEEP CALM
+	<hr>
+		&
+	<hr>
+		FIX DATA
+	<hr>
+		ERRORS
+	<hr>
+	</h1>
+</div>
+
+
+{% endblock main %}
