@@ -1,4 +1,6 @@
-# edc-correction
+==============
+edc-correction
+==============
 
 .. image:: https://travis-ci.org/botswana-harvard/edc-correction.svg?branch=develop
     :target: https://travis-ci.org/botswana-harvard/edc-correction
