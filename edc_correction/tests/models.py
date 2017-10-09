@@ -8,6 +8,7 @@ from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
 from django_crypto_fields.fields.lastname_field import LastnameField
 from django_crypto_fields.fields.firstname_field import FirstnameField
 from edc_base.model_validators.date import datetime_not_future
+from ..model_mixin import ConsentDataFixModelMixin
 
 
 class SubjectConsent(BaseUuidModel):

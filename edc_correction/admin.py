@@ -9,8 +9,9 @@ from edc_base.modeladmin_mixins import (
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin)
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
-from edc_correction.models.consent_data_fix import ConsentDataFix
-from edc_correction.forms.consent_data_fix import ConsentDataFixForm
+
+from .forms import ConsentDataFixForm
+from .models import ConsentDataFix
 
 
 @admin.register(ConsentDataFix, site=edc_correction_admin)

@@ -1,20 +1,19 @@
 from django.db import models
-
-from edc_base.model_mixins import BaseUuidModel
-from edc_correction.models import DataFixValidationMixin
 from django.core.validators import RegexValidator
 
-from edc_constants.choices import GENDER_UNDETERMINED, YES_NO
 from django_crypto_fields.fields.encrypted_char_field import EncryptedCharField
-from django_crypto_fields.fields.lastname_field import LastnameField
 from django_crypto_fields.fields.firstname_field import FirstnameField
+from django_crypto_fields.fields.lastname_field import LastnameField
+from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators.date import datetime_not_future
+from edc_constants.choices import GENDER_UNDETERMINED, YES_NO
 
 from ..exceptions import DataFixError
+from .data_fix_validation_mixin import DataFixValidationMixin
 from .update_value_mixin import UpdateDataValues
 
 
-class ConsentDataFix(DataFixValidationMixin, BaseUuidModel):
+class ConsentDataFixModelMixin(DataFixValidationMixin, BaseUuidModel):
 
     """A model linked to the subject consent to record corrections."""
 
@@ -191,7 +190,8 @@ class ConsentDataFix(DataFixValidationMixin, BaseUuidModel):
                 may_store_samples=self.may_store_samples,
                 is_literate=self.is_literate, witness_name=self.witness_name)
             update_data_values.update_values()
-        super(ConsentDataFix, self).save(*args, **kwargs)
+        super(ConsentDataFixModelMixin, self).save(*args, **kwargs)
 
     class Meta:
+        abstract = True
         app_label = 'edc_correction'

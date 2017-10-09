@@ -1,13 +1,13 @@
-etc/mysql.conf
-.project
+edc_correction/migrations/
+test-*
 .pydevproject
-.settings/
-*.sqlite3
+.project
+.settings/*
+db.sqlite*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-*migrations
 
 # C extensions
 *.so
