@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django_crypto_fields.apps.AppConfig',
     'crispy_forms',
     'tz_detect',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django_js_reverse',
     'django_revision.apps.AppConfig',
     'edc_base.apps.AppConfig',
