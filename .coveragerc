@@ -5,3 +5,4 @@ omit =
     manage.py
     */migrations/*
     *tests/*
+    *apps.py

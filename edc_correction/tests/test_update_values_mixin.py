@@ -28,7 +28,21 @@ class TestUpdateValuesMixin(TestCase):
         self.subject_consent = SubjectConsent.objects.create(**options)
         self.assertEqual(SubjectConsent.objects.all().count(), 1)
 
-    def test_update_last_name(self):
+    def test_first_name(self):
+        """Assert if initials are updated on a consent.
+        """
+        new_first_name = 'DESTING'
+        old_first_name = 'TEST'
+        ConsentDataFix.objects.create(
+            subject_identifier='11111111',
+            first_name=new_first_name,
+            old_first_name=old_first_name)
+        subject_consent = SubjectConsent.objects.get(
+            id=self.subject_consent.id)
+        self.assertEqual(subject_consent.first_name, new_first_name)
+        self.assertEqual(subject_consent.initials, 'DT')
+
+    def test_last_name(self):
         """Assert if initials are updated on a consent.
         """
         new_last_name = 'DESTING'
@@ -40,6 +54,7 @@ class TestUpdateValuesMixin(TestCase):
         subject_consent = SubjectConsent.objects.get(
             id=self.subject_consent.id)
         self.assertEqual(subject_consent.last_name, new_last_name)
+        self.assertEqual(subject_consent.initials, 'TD')
 
     def unverify_consent(self):
         """Assert that a consent is unverified.

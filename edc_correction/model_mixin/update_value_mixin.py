@@ -68,6 +68,8 @@ class UpdateDataValues:
                 raise DataFixError(
                     'New initials do not match first and '
                     f'last name. Expected {initials}, Got {self.initials}')
+        elif not initials == self.subject_consent.initials:
+            self.initials = self.subject_consent.initials
         return initials
 
     def unverify_consent(self):
