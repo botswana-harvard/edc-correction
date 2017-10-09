@@ -143,7 +143,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 STATIC_URL = '/static/'
 
 GIT_DIR = BASE_DIR
-KEY_PATH = os.path.join('/Volumes', 'crypto_keys')
+KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 
 
 if 'test' in sys.argv:
