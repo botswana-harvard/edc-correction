@@ -13,3 +13,7 @@ class TestHomeView(TestCase):
     def test_context(self):
         context = self.view.get_context_data()
         self.assertIn('project_name', context)
+        self.assertIn('institution', context)
+        self.assertIn('copyright', context)
+        self.assertIn('license', context)
+        self.assertIn('disclaimer', context)
