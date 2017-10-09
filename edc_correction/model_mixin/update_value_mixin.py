@@ -11,9 +11,12 @@ class UpdateDataValues:
     age_min = app_conf.age_min
     age_is_adult = app_conf.age_is_adult
 
-    def __init__(self, consent_data_fix=None, subject_consent=None, first_name=None, last_name=None,
-                 dob=None, initials=None, gender=None, guardian_name=None,
-                 may_store_samples=None, is_literate=None, witness_name=None):
+    def __init__(
+        self, consent_data_fix=None,
+        subject_consent=None, first_name=None,
+        last_name=None,
+            dob=None, initials=None, gender=None, guardian_name=None,
+            may_store_samples=None, is_literate=None, witness_name=None):
         self.consent_data_fix = consent_data_fix
         self.subject_consent = subject_consent
         self.first_name = first_name

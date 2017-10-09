@@ -13,7 +13,8 @@ class DataFixValidationMixin:
         return consent_model_cls.objects.filter(
             subject_identifier=self.subject_identifier)
 
-    def validate_value_against_consent(self, subject_consent=None, value=None, attr_name=None):
+    def validate_value_against_consent(
+            self, subject_consent=None, value=None, attr_name=None):
         """Return True if the old value provided is the same a the value
         in the database.
         """
@@ -21,7 +22,8 @@ class DataFixValidationMixin:
             return True
         return False
 
-    def compare_old_fields_to_db_values(self, subject_consent=None, instance=None, exception_cls=None):
+    def compare_old_fields_to_db_values(
+            self, subject_consent=None, instance=None, exception_cls=None):
         """Raises an exception if an 'old_" field does not match the value
         on the corresponding subject_consent field value."""
         exception_cls = exception_cls or ValidationError
@@ -37,12 +39,15 @@ class DataFixValidationMixin:
                         'The old and new value are equal. '
                         f'Got {old_value} and {new_value}')
                 if new_field_name not in ignore_fields:
-                    if (not old_value and new_value) or (old_value and not new_value):
+                    if ((not old_value and new_value) or
+                            (old_value and not new_value)):
                         raise exception_cls(
                             'Both the old and new value must be provided. '
                             f'Got {old_value} and {new_value}.')
                     elif old_value and new_value:
-                        if not self.validate_value_against_consent(subject_consent=subject_consent, value=old_value, attr_name=new_field_name):
+                        if not self.validate_value_against_consent(
+                                subject_consent=subject_consent,
+                                value=old_value, attr_name=new_field_name):
                             raise exception_cls(
                                 "Consent db value does not match the old value "
                                 f"entered for field: {new_field_name} value {old_value}.")
