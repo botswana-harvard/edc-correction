@@ -120,8 +120,12 @@ class UpdateDataValues:
                 self.subject_consent.witness_name = witness_name
 
     def update_witness(self):
-        if self.witness_name and not self.subject_consent.is_literate:
+        is_literate = self.is_literate or self.subject_consent.is_literate
+        if self.witness_name and is_literate == NO:
             self.subject_consent.witness_name = self.witness_name
+        elif self.witness_name and not is_literate == NO:
+            raise DataFixError(
+                'Witness name only required if is_literate in No.')
 
     def update_user_modified(self):
         user_modified = self.consent_data_fix.user_created

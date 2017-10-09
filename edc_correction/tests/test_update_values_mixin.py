@@ -218,6 +218,34 @@ class TestUpdateValuesMixin(TestCase):
                 old_is_literate=old_is_literate,
                 is_literate=is_literate)
 
+    def test_update_witness(self):
+        """Assert if witness is provided with is_literate as no witness name '
+        'is updated.
+        """
+        witness_name = 'TEST2,TEST2'
+        is_literate = NO
+        old_is_literate = YES
+        ConsentDataFix.objects.create(
+            subject_identifier='11111111',
+            witness_name=witness_name,
+            old_is_literate=old_is_literate,
+            is_literate=is_literate)
+        subject_consent = SubjectConsent.objects.get(
+            id=self.subject_consent.id)
+        self.assertEqual(subject_consent.witness_name, witness_name)
+        self.assertEqual(subject_consent.is_literate, is_literate)
+
+    def test_update_witness2(self):
+        """Assert if witness is provided with is_literate as no witness name '
+        'is updated.
+        """
+        witness_name = 'TEST2,TEST2'
+        expected_message = 'Witness name only required if is_literate in No.'
+        with self.assertRaisesMessage(DataFixError, expected_message):
+            ConsentDataFix.objects.create(
+                subject_identifier='11111111',
+                witness_name=witness_name)
+
     def test_update_is_not_literate2(self):
         """Assert if is_literate is no witness_name is required.
         """
